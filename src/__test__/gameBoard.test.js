@@ -13,11 +13,15 @@ describe("GameBoard", () => {
     expect(gb.addShip([-1, 5], 1, "v")).toBe(false);
   });
 
-  test("Should able add ship on empty tile", () => {
+  test("Should able add horizontal ship on empty tile", () => {
     expect(gb.addShip([0, 0], 2, "h")).toBe(true);
   });
   test("Should NOT able add ship on filled tile", () => {
     expect(gb.addShip([1, 0], 1)).toBe(false);
+  });
+  test("Should able add vertical ship on empty tile", () => {
+    expect(gb.addShip([0, 5], 1, "v")).toBe(true);
+    gb.receiveAttack([0, 5]);
   });
 
   test("Board should receive attack on empty tile", () => {
