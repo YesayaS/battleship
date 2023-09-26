@@ -50,7 +50,7 @@ export class GameBoard {
       const ship = new Ship(shipLength);
       for (let i = 0; i < shipLength; i++) {
         const tile = this.coordinateToTile([x, y]);
-        tile.isFilled = true;
+
         tile.ship = ship;
         if (orientation === "v") {
           y += 1;
@@ -88,7 +88,6 @@ export class GameBoard {
 
 export class Tile {
   constructor() {
-    this.isFilled = false;
     this.isAttacked = false;
     this.ship = null;
     this.shipHit = false;
