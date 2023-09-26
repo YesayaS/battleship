@@ -11,7 +11,7 @@ export class GameBoard {
     return this.board[y][x];
   }
 
-  #postitionInboundBoard(coordinate) {
+  #positionInboundBoard(coordinate) {
     const [x, y] = coordinate;
     return x >= 0 && x < this.boardLength && y >= 0 && y < this.boardLength;
   }
@@ -24,14 +24,15 @@ export class GameBoard {
   #availableTiles(coordinate, shipLength, orientation) {
     let [x, y] = coordinate;
     for (let i = 0; i < shipLength; i++) {
-      const inboundCoordinate = this.#postitionInboundBoard([x, y]);
+      const inboundCoordinate = this.#positionInboundBoard([x, y]);
       if (inboundCoordinate) {
         const availableTile = this.#availableTile([x, y]);
-        if (availableTile) {
-          if (orientation === "v") {
-            y += 1;
-          } else x += 1;
-        } else return false;
+        if (!availableTile) return false;
+        if (orientation === "v") {
+          y += 1;
+        } else {
+          x += 1;
+        }
       } else {
         return false;
       }
@@ -50,11 +51,12 @@ export class GameBoard {
       const ship = new Ship(shipLength);
       for (let i = 0; i < shipLength; i++) {
         const tile = this.#coordinateToTile([x, y]);
-
         tile.ship = ship;
         if (orientation === "v") {
           y += 1;
-        } else x += 1;
+        } else {
+          x += 1;
+        }
       }
       return true;
     }
