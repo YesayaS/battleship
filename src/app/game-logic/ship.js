@@ -10,11 +10,9 @@ export class Ship {
   hits() {
     this.#hits += 1;
     this.isSunk();
-  }
-  isSunk() {
     this.#sunk = this.#length === this.#hits ? true : false;
   }
-  status() {
-    return [this.#length, this.#hits, this.#sunk];
+  isSunk() {
+    return this.#sunk;
   }
 }
