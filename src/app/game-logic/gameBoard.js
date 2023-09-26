@@ -5,28 +5,28 @@ export class GameBoard {
     this.board = board || [];
     this.boardLength = this.board.length;
   }
-  coordinateToTile(coordinate) {
+  #coordinateToTile(coordinate) {
     const x = coordinate[0];
     const y = coordinate[1];
     return this.board[y][x];
   }
 
-  postitionInboundBoard(coordinate) {
+  #postitionInboundBoard(coordinate) {
     const [x, y] = coordinate;
     return x >= 0 && x < this.boardLength && y >= 0 && y < this.boardLength;
   }
 
-  availableTile(coordinate) {
-    const tile = this.coordinateToTile(coordinate);
+  #availableTile(coordinate) {
+    const tile = this.#coordinateToTile(coordinate);
     return tile.ship === null && !tile.isAttacked;
   }
 
-  availableTiles(coordinate, shipLength, orientation) {
+  #availableTiles(coordinate, shipLength, orientation) {
     let [x, y] = coordinate;
     for (let i = 0; i < shipLength; i++) {
-      const inboundCoordinate = this.postitionInboundBoard([x, y]);
+      const inboundCoordinate = this.#postitionInboundBoard([x, y]);
       if (inboundCoordinate) {
-        const availableTile = this.availableTile([x, y]);
+        const availableTile = this.#availableTile([x, y]);
         if (availableTile) {
           if (orientation === "v") {
             y += 1;
@@ -40,7 +40,7 @@ export class GameBoard {
   }
 
   addShip(coordinate, shipLength, orientation) {
-    const availableTiles = this.availableTiles(
+    const availableTiles = this.#availableTiles(
       coordinate,
       shipLength,
       orientation,
@@ -49,7 +49,7 @@ export class GameBoard {
       let [x, y] = coordinate;
       const ship = new Ship(shipLength);
       for (let i = 0; i < shipLength; i++) {
-        const tile = this.coordinateToTile([x, y]);
+        const tile = this.#coordinateToTile([x, y]);
 
         tile.ship = ship;
         if (orientation === "v") {
@@ -62,7 +62,7 @@ export class GameBoard {
   }
 
   receiveAttack(coordinate) {
-    const tile = this.coordinateToTile(coordinate);
+    const tile = this.#coordinateToTile(coordinate);
     if (!tile.isAttacked) {
       tile.isAttacked = true;
       if (tile.ship !== null) {
