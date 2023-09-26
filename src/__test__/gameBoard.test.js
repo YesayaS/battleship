@@ -6,35 +6,36 @@ describe("GameBoard", () => {
     Array.from({ length: boardSize }, () => new Tile()),
   );
   const gb = new GameBoard(board);
-  test("All initial board tile should false", () => {
-    expect(gb.checkTile([0, 5])).toBe(false);
+  test("Should return false on outbound coordinate", () => {
+    expect(gb.addShip([0, 10], 1, "h")).toBe(false);
   });
-  test("Board should throw error", () => {
-    expect(() => gb.addShip([0, 10], 1)).toThrow(Error);
+  test("Should return false on outbound coordinate", () => {
+    expect(gb.addShip([-1, 5], 1, "v")).toBe(false);
   });
-  test("Board should throw error", () => {
-    expect(() => gb.addShip([-1, 5], 1)).toThrow(Error);
+
+  test("Should able add ship on empty tile", () => {
+    expect(gb.addShip([0, 0], 2, "h")).toBe(true);
   });
-  test("Board should able add ship", () => {
-    expect(gb.addShip([0, 1], 1)).toBe(true);
+  test("Should NOT able add ship on filled tile", () => {
+    expect(gb.addShip([1, 0], 1)).toBe(false);
   });
-  test("Board should NOT able add ship", () => {
-    expect(gb.addShip([0, 1], 1)).toBe(false);
+
+  test("Board should receive attack on empty tile", () => {
+    expect(gb.receiveAttack([0, 1])).toBe(true);
   });
-  test("Board should receive empty tile hit", () => {
-    expect(gb.receiveAttack([0, 0])).toBe(true);
+  test("Board should NOT receive attack on attacked tile", () => {
+    expect(gb.receiveAttack([0, 1])).toBe(false);
   });
-  test("Board should receive attacked tile hit", () => {
-    expect(gb.receiveAttack([0, 0])).toBe(false);
-  });
-  test("Board should tell all ship is not sunk", () => {
+  test("Should tell all ship is not sunk", () => {
     expect(gb.isAllSunk()).toBe(false);
   });
+
   test("Board should receive ship hit", () => {
-    gb.receiveAttack([0, 1]);
-    expect(gb.board[0][1].shipHit).toBe(true);
+    gb.receiveAttack([0, 0]);
+    expect(gb.board[0][0].shipHit).toBe(true);
   });
   test("Board should tell all ship is sunk", () => {
+    gb.receiveAttack([1, 0]);
     expect(gb.isAllSunk()).toBe(true);
   });
 });
