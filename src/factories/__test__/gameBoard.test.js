@@ -1,4 +1,4 @@
-import { GameBoard, Tile } from "../app/game-logic/gameBoard";
+import { GameBoard, Tile } from "../gameBoard";
 
 describe("GameBoard", () => {
   const boardSize = 8;
